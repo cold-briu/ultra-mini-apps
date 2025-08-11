@@ -16,6 +16,7 @@ import {
   TransactionStatus,
 } from "@coinbase/onchainkit/transaction";
 import { useNotification } from "@coinbase/onchainkit/minikit";
+import { useSafeAvalanche } from "../../hooks/useSafeAvalanche";
 
 type ButtonProps = {
   children: ReactNode;
@@ -153,23 +154,58 @@ export function Features({ setActiveTab }: FeaturesProps) {
   );
 }
 
+type FundsProps = {
+  setActiveTab: (tab: string) => void;
+};
+
+export function Funds({ setActiveTab }: FundsProps) {
+  return (
+    <div className="space-y-6 animate-fade-in">
+      <FundsSection />
+      <div className="flex justify-center">
+        <Button variant="outline" onClick={() => setActiveTab("home")}>
+          Back to Home
+        </Button>
+      </div>
+    </div>
+  );
+}
+
 type HomeProps = {
   setActiveTab: (tab: string) => void;
 };
 
 export function Home({ setActiveTab }: HomeProps) {
+  const { owners, threshold, fiatTotal, tokens, loading, error } = useSafeAvalanche();
+
   return (
     <div className="space-y-6 animate-fade-in">
       <Card title="My First Mini App">
         <p className="text-[var(--app-foreground-muted)] mb-4">
           This is a minimalistic Mini App built with OnchainKit components.
         </p>
-        <Button
-          onClick={() => setActiveTab("features")}
-          icon={<Icon name="arrow-right" size="sm" />}
-        >
-          Explore Features
-        </Button>
+        <div className="space-y-3">
+          <Button
+            onClick={() => setActiveTab("features")}
+            icon={<Icon name="arrow-right" size="sm" />}
+          >
+            Explore Features
+          </Button>
+          <Button
+            onClick={() => setActiveTab("funds")}
+            variant="secondary"
+            icon={<Icon name="wallet" size="sm" />}
+          >
+            View Funds
+          </Button>
+          <Button
+            onClick={() => console.log("Safe data:", { owners, threshold, fiatTotal, tokens, loading, error })}
+            variant="outline"
+            icon={<Icon name="star" size="sm" />}
+          >
+            Log Safe Data
+          </Button>
+        </div>
       </Card>
 
       <TodoList />
@@ -180,7 +216,7 @@ export function Home({ setActiveTab }: HomeProps) {
 }
 
 type IconProps = {
-  name: "heart" | "star" | "check" | "plus" | "arrow-right";
+  name: "heart" | "star" | "check" | "plus" | "arrow-right" | "wallet" | "external-link" | "shield" | "users" | "refresh";
   size?: "sm" | "md" | "lg";
   className?: string;
 }
@@ -270,6 +306,92 @@ export function Icon({ name, size = "md", className = "" }: IconProps) {
         <polyline points="12 5 19 12 12 19" />
       </svg>
     ),
+    wallet: (
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        aria-hidden="true"
+      >
+        <title>Wallet</title>
+        <path d="M21 12V7H5a2 2 0 0 1 0-4h14v4" />
+        <path d="M3 5v14a2 2 0 0 0 2 2h16v-5" />
+        <path d="M18 12a2 2 0 0 0 0 4h4v-4Z" />
+      </svg>
+    ),
+    "external-link": (
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        aria-hidden="true"
+      >
+        <title>External Link</title>
+        <path d="M15 3h6v6" />
+        <path d="M10 14 21 3" />
+        <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+      </svg>
+    ),
+    shield: (
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        aria-hidden="true"
+      >
+        <title>Shield</title>
+        <path d="M20 13c0 5-3.5 7.5-8 7.5s-8-2.5-8-7.5c0-2.91.48-5.35 1.34-7.24A2 2 0 0 1 7.24 4h9.52a2 2 0 0 1 1.9 1.76C19.52 7.65 20 10.09 20 13Z" />
+        <path d="m9 12 2 2 4-4" />
+      </svg>
+    ),
+    users: (
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        aria-hidden="true"
+      >
+        <title>Users</title>
+        <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+        <circle cx="9" cy="7" r="4" />
+        <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
+        <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+      </svg>
+    ),
+    refresh: (
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        aria-hidden="true"
+      >
+        <title>Refresh</title>
+        <path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8" />
+        <path d="M21 3v5h-5" />
+        <path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16" />
+        <path d="M3 21v-5h5" />
+      </svg>
+    ),
   };
 
   return (
@@ -283,6 +405,238 @@ type Todo = {
   id: number;
   text: string;
   completed: boolean;
+}
+
+type MetricCardProps = {
+  title: string;
+  value: string;
+  change?: string;
+  changeType?: "positive" | "negative" | "neutral";
+  variant?: "funds" | "default";
+  icon?: ReactNode;
+  className?: string;
+}
+
+function MetricCard({
+  title,
+  value,
+  change,
+  changeType = "neutral",
+  variant = "default",
+  icon,
+  className = "",
+}: MetricCardProps) {
+  const variantClasses = {
+    funds: "border-[#22c55e]/15 bg-gradient-to-br from-[#22c55e]/5 to-transparent",
+    default: "border-[var(--app-card-border)] bg-[var(--app-card-bg)]",
+  };
+
+  const changeTypeClasses = {
+    positive: "text-[#22c55e]",
+    negative: "text-[#ef4444]",
+    neutral: "text-[var(--app-foreground-muted)]",
+  };
+
+  return (
+    <div
+      className={`p-4 rounded-xl border backdrop-blur-md transition-all hover:shadow-lg ${variantClasses[variant]} ${className}`}
+    >
+      <div className="flex items-center justify-between mb-2">
+        <span className="text-sm font-medium text-[var(--app-foreground-muted)]">
+          {title}
+        </span>
+        {icon && (
+          <span className={variant === "funds" ? "text-[#22c55e]" : "text-[var(--app-accent)]"}>
+            {icon}
+          </span>
+        )}
+      </div>
+      <div className="space-y-1">
+        <div className="text-2xl font-bold text-[var(--app-foreground)]">
+          {value}
+        </div>
+        {change && (
+          <div className={`text-xs ${changeTypeClasses[changeType]}`}>
+            {change}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+export function FundsSection() {
+  const { owners, threshold, fiatTotal, tokens, loading, error, refresh } = useSafeAvalanche();
+
+  if (error) return <div className="text-[var(--app-foreground)] p-4">Error: {error}</div>;
+  if (loading) return <div className="text-[var(--app-foreground)] p-4">Loading Safe data...</div>;
+
+  return (
+    <div className="space-y-8">
+      <div className="flex items-center justify-between">
+        <div>
+          <h2 className="text-2xl font-bold flex items-center gap-3 mb-2">
+            <div className="p-2 rounded-lg bg-[#22c55e]/15">
+              <Icon name="wallet" className="text-[#22c55e]" />
+            </div>
+            <span className="text-[#22c55e]">FUNDS & FINANCE</span>
+          </h2>
+          <p className="text-sm text-[var(--app-foreground-muted)] ml-11">
+            Community treasury and multisig management
+          </p>
+        </div>
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={refresh}
+          disabled={loading}
+          className="text-[#22c55e] hover:bg-[#22c55e]/10"
+          icon={<Icon name="refresh" size="sm" className={loading ? "animate-spin" : ""} />}
+        >
+          {loading ? "Refreshing..." : "Refresh"}
+        </Button>
+      </div>
+
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+        <MetricCard
+          title="Multisig Avalanche"
+          value={`$${fiatTotal.toLocaleString(undefined, { maximumFractionDigits: 0 })}`}
+          change={`${owners.length} multisigners`}
+          changeType="positive"
+          variant="funds"
+          icon={<Icon name="shield" size="sm" />}
+        />
+        <MetricCard
+          title="Required Signatures (AVAX)"
+          value={`${threshold}/${owners.length}`}
+          change="to execute transactions"
+          changeType="neutral"
+          variant="funds"
+          icon={<Icon name="users" size="sm" />}
+        />
+        <MetricCard
+          title="Multisig Solana"
+          value="$0"
+          change="10 multisigners"
+          changeType="neutral"
+          variant="funds"
+          icon={<Icon name="shield" size="sm" />}
+        />
+        <MetricCard
+          title="Required Signatures (SOL)"
+          value="6/10"
+          change="to execute transactions"
+          changeType="neutral"
+          variant="funds"
+          icon={<Icon name="users" size="sm" />}
+        />
+      </div>
+
+      <div className="grid gap-6 lg:grid-cols-2 mt-8">
+        <div className="space-y-4">
+          <h3 className="text-base font-semibold uppercase tracking-wide text-[var(--app-foreground-muted)]">
+            Multisig Avalanche
+          </h3>
+          <div className="p-5 rounded-xl border border-[#22c55e]/15 bg-gradient-to-br from-[#22c55e]/5 to-transparent">
+            <div className="space-y-4">
+              <div className="flex justify-between items-center">
+                <span className="font-medium text-[var(--app-foreground)]">Community Vault</span>
+                <Button variant="ghost" size="sm" className="h-6 p-1">
+                  <a
+                    href="https://app.safe.global/balances?safe=avax:0x52110a2Cc8B6bBf846101265edAAe34E753f3389"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center"
+                  >
+                    <Icon name="external-link" size="sm" />
+                  </a>
+                </Button>
+              </div>
+
+              <div className="space-y-3">
+                <ul className="space-y-2">
+                  {tokens
+                    .filter(token => Number(token.fiatBalance) >= 1)
+                    .slice(0, 5)
+                    .map((token, idx) => (
+                      <li
+                        key={token.tokenInfo.address + idx}
+                        className="flex items-center justify-between gap-2 p-2.5 rounded-lg bg-[var(--app-background)]/50 hover:bg-[#22c55e]/10 transition-colors"
+                      >
+                        <div className="flex items-center gap-2 min-w-0 flex-1">
+                          <img
+                            src={token.tokenInfo.logoUri}
+                            alt={token.tokenInfo.symbol}
+                            className="w-6 h-6 rounded-full border flex-shrink-0"
+                            onError={(e) => {
+                              const target = e.target as HTMLImageElement;
+                              target.onerror = null;
+                              target.src = "data:image/svg+xml,%3csvg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='24' height='24' rx='12' fill='%23e5e7eb'/%3e%3ctext x='12' y='16' text-anchor='middle' fill='%236b7280' font-size='12' font-family='system-ui'%3e?%3c/text%3e%3c/svg%3e";
+                            }}
+                          />
+                          <span className="font-medium flex-shrink-0 text-[var(--app-foreground)]">{token.tokenInfo.symbol}</span>
+                          <span className="text-xs text-[var(--app-foreground-muted)] truncate hidden sm:block">
+                            {token.tokenInfo.name}
+                          </span>
+                        </div>
+                        <div className="text-right flex-shrink-0">
+                          <div className="font-bold text-sm sm:text-base text-[var(--app-foreground)]">
+                            {(Number(token.balance) / 10 ** token.tokenInfo.decimals).toLocaleString(undefined, { maximumFractionDigits: 2, minimumFractionDigits: 2 })}
+                          </div>
+                          <div className="text-xs text-[var(--app-foreground-muted)]">
+                            ${Number(token.fiatBalance).toLocaleString(undefined, { maximumFractionDigits: 2 })}
+                          </div>
+                        </div>
+                      </li>
+                    ))}
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="space-y-4">
+          <h3 className="text-base font-semibold uppercase tracking-wide text-[var(--app-foreground-muted)]">
+            Multisig Solana
+          </h3>
+          <div className="p-5 rounded-xl border border-[#22c55e]/15 bg-gradient-to-br from-[#22c55e]/5 to-transparent">
+            <div className="space-y-4">
+              <div className="flex justify-between items-center">
+                <span className="font-medium text-[var(--app-foreground)]">Community Vault</span>
+                <Button variant="ghost" size="sm" className="h-6 p-1">
+                  <a
+                    href="https://app.squads.so/squads/6ye76CffLefSQa9zbfGRDReQekm2deFTYNYh5953B6yi/treasury/6ye76CffLefSQa9zbfGRDReQekm2deFTYNYh5953B6yi"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center"
+                  >
+                    <Icon name="external-link" size="sm" />
+                  </a>
+                </Button>
+              </div>
+
+              <div className="space-y-3">
+                <div className="flex justify-between items-center p-2.5 rounded-lg bg-[var(--app-background)]/50">
+                  <div className="flex items-center gap-2">
+                    <div className="w-6 h-6 rounded-full bg-purple-500 flex items-center justify-center text-xs font-bold text-white">
+                      S
+                    </div>
+                    <span className="font-medium text-[var(--app-foreground)]">SOL</span>
+                  </div>
+                  <div className="text-right">
+                    <div className="font-bold text-[var(--app-foreground)]">0</div>
+                    <div className="text-xs text-[var(--app-foreground-muted)]">
+                      ~$0
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 }
 
 function TodoList() {
@@ -350,11 +704,10 @@ function TodoList() {
                   type="button"
                   id={`todo-${todo.id}`}
                   onClick={() => toggleTodo(todo.id)}
-                  className={`w-5 h-5 rounded-full border flex items-center justify-center ${
-                    todo.completed
-                      ? "bg-[var(--app-accent)] border-[var(--app-accent)]"
-                      : "border-[var(--app-foreground-muted)] bg-transparent"
-                  }`}
+                  className={`w-5 h-5 rounded-full border flex items-center justify-center ${todo.completed
+                    ? "bg-[var(--app-accent)] border-[var(--app-accent)]"
+                    : "border-[var(--app-foreground-muted)] bg-transparent"
+                    }`}
                 >
                   {todo.completed && (
                     <Icon
@@ -393,12 +746,12 @@ function TransactionCard() {
   // Example transaction call - sending 0 ETH to self
   const calls = useMemo(() => address
     ? [
-        {
-          to: address,
-          data: "0x" as `0x${string}`,
-          value: BigInt(0),
-        },
-      ]
+      {
+        to: address,
+        data: "0x" as `0x${string}`,
+        value: BigInt(0),
+      },
+    ]
     : [], [address]);
 
   const sendNotification = useNotification();
