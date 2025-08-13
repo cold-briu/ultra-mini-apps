@@ -12,7 +12,7 @@ const nextConfig = {
       {
         source: '/.well-known/farcaster.json',
         destination:
-          'https://api.farcaster.xyz/miniapps/hosted-manifest/0198a18e-ea8e-c38e-0cae-b9bcdd78e648',
+          'https://api.farcaster.xyz/miniapps/hosted-manifest/0198a1aa-02d4-b3a8-6fe4-0318225168f7',
         permanent: false, // temporary redirect
         statusCode: 307,  // explicitly force 307 instead of default 308
       },
