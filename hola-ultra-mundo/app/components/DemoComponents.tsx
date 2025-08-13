@@ -176,41 +176,17 @@ type HomeProps = {
 };
 
 export function Home({ setActiveTab }: HomeProps) {
-  const { owners, threshold, fiatTotal, tokens, loading, error } = useSafeAvalanche();
-
   return (
     <div className="space-y-6 animate-fade-in">
-      <Card title="My First Mini App">
-        <p className="text-[var(--app-foreground-muted)] mb-4">
-          This is a minimalistic Mini App built with OnchainKit components.
-        </p>
-        <div className="space-y-3">
-          <Button
-            onClick={() => setActiveTab("features")}
-            icon={<Icon name="arrow-right" size="sm" />}
-          >
-            Explore Features
-          </Button>
-          <Button
-            onClick={() => setActiveTab("funds")}
-            variant="secondary"
-            icon={<Icon name="wallet" size="sm" />}
-          >
-            View Funds
-          </Button>
-          <Button
-            onClick={() => console.log("Safe data:", { owners, threshold, fiatTotal, tokens, loading, error })}
-            variant="outline"
-            icon={<Icon name="star" size="sm" />}
-          >
-            Log Safe Data
-          </Button>
-        </div>
-      </Card>
-
-      <TodoList />
-
-      <TransactionCard />
+      <div className="flex justify-center">
+        <Button
+          onClick={() => setActiveTab("funds")}
+          variant="secondary"
+          icon={<Icon name="wallet" size="sm" />}
+        >
+          View Funds
+        </Button>
+      </div>
     </div>
   );
 }
