@@ -46,3 +46,19 @@
 | 📦 Repo | [ultra-mini-apps](https://github.com/cold-briu/ultra-mini-apps) |
 | 🚀 Deploy | [Hola Ultra Mundo](https://farcaster.xyz/miniapps/ZGJVqdKidoL4/hola-ultra-mundo) |
 | 🏠 Landing | [ultravioletadao.xyz](https://ultravioletadao.xyz/) |
+
+## 🚀 Next Steps
+
+### 📅 Upcoming Schedule
+
+🏖️ **Main streams paused** for 1 month due to host trip to Colombia and Ultra Evento 2025  
+📍 **Ultra Evento 2025**  
+🗓️ Saturday, August 23  
+⏰ 1:00 PM - 9:00 PM  
+📍 Medellín (Register to see address)
+
+### 🔄 During Stream Pause
+
+🤝 **Decentralized collaboration** on the repo with side streams to build in public  
+👥 **Onboard and fund** non-dev DAO members  
+🎯 **Apply to Onchain Summer** presenting the DAO implementation in Base by focusing interactions with the DAO through Farcaster
